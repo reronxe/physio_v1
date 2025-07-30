@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" type="image/svg+xml" href="images/k-logo.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Physiothérapie Kuchler – Sion</title>
+  <script type="module">
+    import { cardio } from 'https://cdn.jsdelivr.net/npm/ldrs/dist/ldrs.min.js'
+    cardio.register()
+  </script>
+    <style>
+      :root {
+        --main-color: #4caf50;
+        --secondary-color: #ccc;
+        --bg-body: #1e1e1e;
+        --bg-light: #2a2a2a;
+        --bg-alt: #333;
+        --footer-bg: #111;
+        --footer-text: #eee;
+      }
+  
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 80px;
+      }
+  
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+  
+      body {
+        font-family: 'Nunito Sans', sans-serif;
+        font-size: 17px;
+        color: var(--secondary-color);
+        background: var(--bg-body);
+        line-height: 1.7;
+      }
+  
+      #loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(30, 30, 30, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+  
+      header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: var(--bg-light);
+        padding: 15px 20px;
+        border-bottom: 2px solid var(--main-color);
+        position: relative;
+      }
+  
+      .logo-text {
+        font-size: 1.8em;
+        color:#eee;
+        font-weight: 600;
+        text-align: center;
+        margin: 0;
+      }
+  
+      .menu-toggle {
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 22px;
+        cursor: pointer;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+      }
+  
+      .menu-toggle span {
+        height: 4px;
+        background: var(--main-color);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+      }
+  
+      nav {
+        transition: max-height 0.5s ease;
+        overflow: hidden;
+      }
+  
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+      }
+  
+      nav a {
+        color: var(--main-color);
+        text-decoration: none;
+        font-weight: 600;
+        padding: 5px;
+        transition: color 0.3s, background 0.3s;
+      }
+  
+      nav a:hover {
+        background: rgba(76, 175, 80, 0.1);
+        border-radius: 4px;
+      }
+  
+      main {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+      }
+  
+      section {
+        padding: 60px 20px;
+        background: var(--bg-light);
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      }
+  
+      section:nth-child(even) {
+        background: var(--bg-alt);
+      }
+  
+      section.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+  
+      h1, h2, h3 {
+        font-family: "Quicksand", sans-serif;
+        color: var(--main-color);
+      }
+  
+      h1 {
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+  
+      h2 {
+        font-size: 1.5em;
+        margin-bottom: 15px;
+      }
+  
+      h3 {
+        font-size: 1.2em;
+        margin: 10px 0 5px;
+      }
+  
+      p {
+        margin-bottom: 15px;
+      }
+  
+      ul {
+        margin-left: 20px;
+        margin-bottom: 15px;
+      }
+  
+      ul li {
+        margin-bottom: 8px;
+      }
+  
+      .hours {
+        list-style: none;
+        padding-left: 0;
+      }
+  
+      .hours li {
+        margin-bottom: 5px;
+      }
+  
+      .team-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 40px;
+        text-align: center;
+      }
+  
+      .team-member {
+        width: 200px;
+      }
+  
+      .team-photo {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        margin-bottom: 10px;
+        transition: transform 0.3s;
+      }
+  
+      .team-photo:hover {
+        transform: scale(1.05);
+      }
+  
+      .cv-button {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 8px 16px;
+        background-color: var(--main-color);
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 6px;
+        transition: background 0.3s ease;
+        nav a {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 12px 16px;
+        font-size: 1em;
+        }
+      }
+  
+      .cv-button:hover {
+        background-color: #3e8e41;
+      }
+  
+      main a {
+        color: var(--main-color);
+        text-decoration: none;
+      }
+  
+      main a:hover {
+        text-decoration: underline;
+      }
+  
+      footer {
+        background: var(--footer-bg);
+        color: var(--footer-text);
+        text-align: center;
+        padding: 15px 10px;
+        font-size: 0.9em;
+      }
+  
+      .slider-container {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        display: flex;
+        border-radius: 8px;
+        background: #111;
+        padding: 10px 0;
+        position: relative;
+        overflow-x: auto;
+      }
+  
+      .slider-track {
+        display: flex;
+        gap: 10px;
+        scroll-snap-align: start;
+        padding: 0 10px;
+      }
+  
+      .slider-track img {
+        width: 300px;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 10px;
+        flex-shrink: 0;
+        scroll-snap-align: start;
+        transition: transform 0.3s;
+      }
+  
+      .slider-track img:hover {
+        transform: scale(1.05);
+      }
+  
+      .slider-indicator {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 2em;
+        color: var(--main-color);
+        opacity: 0.6;
+        pointer-events: none;
+        animation: bounceArrow 1.5s infinite;
+      }
+  
+      @keyframes bounceArrow {
+        0%, 100% {
+          transform: translateY(-50%) translateX(0);
+        }
+        50% {
+          transform: translateY(-50%) translateX(5px);
+        }
+      }
+  
+      @media (max-width: 768px) {
+
+        body {
+          font-size: 16px;
+          padding: 0;
+        }
+
+        header {
+          padding: 20px;
+          text-align: center;
+        }
+
+        .menu-toggle span {
+          width: 100%;
+        }
+
+        .menu-toggle {
+          display: flex;
+        }
+        nav ul {
+          flex-direction: column;
+          align-items: center;
+          gap: 15px;
+          background: transparent;
+          padding: 10px 0;
+        }
+        nav.collapsed {
+          max-height: 0;
+        }
+        nav.expanded {
+          max-height: 500px;
+        }
+        main {
+          padding: 20px 15px;
+        }
+      }
+  
+      @media (max-width: 480px) {
+
+        main {
+          padding: 10px;
+        }
+
+        section {
+          padding: 30px 15px;
+        }
+
+        h1, h2 {
+          font-size: 1.4em;
+        }
+
+        .team-list {
+          flex-direction: column;
+          align-items: center;
+        }
+  
+        .team-member {
+          width: 100%;
+          max-width: 250px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        
+      }
+
+      .slider-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--main-color);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        z-index: 10;
+        opacity: 0.8;
+        transition: background 0.3s, opacity 0.3s;
+
+        nav a {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 12px 16px;
+        font-size: 1em;
+      }
+}
+.slider-btn:hover {
+  background: #3e8e41;
+  opacity: 1;
+}
+.left-btn {
+  left: 10px;
+}
+.right-btn {
+  right: 10px;
+}
+.slider-wrapper {
+  position: relative;
+  width: 100%;
+}
+#massage img {
+  width: 100%;             
+  max-width: 405px;         
+  height: 350px;            
+  object-fit: cover;       
+  border-radius: 10px;     
+  display: block;           
+  margin: 20px auto;        
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); 
+}
+</style>
+</head>
+<body>
+  <div id="loader">
+    <l-cardio size="50" stroke="4" speed="2" color="black"></l-cardio>
+  </div>
+
+  <header>
+    <div class="logo">
+      <h1 class="logo-text">Physiothérapie Kuchler</h1>
+    </div>
+
+    <nav id="nav" class="collapsed">
+      <ul>
+        <li><a href="#accueil">Cabinet</a></li>
+        <li><a href="#galerie">Photos</a></li>
+        <li><a href="#physiothérapie">Physiothérapie</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#equipe">Equipe</a></li>
+        <li><a href="#infos">Informations supplémentaires</a></li>
+        <li><a href="#massage">Massage</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#horaires">Horaires</a></li>
+        <li><a href="#emplacement">Emplacement</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="accueil">
+      <h1>Cabinet</h1>
+      <p>Nous fonctionnons principalement au travers de thérapies actives lors de la rééducation fonctionnelle mais n’oublions pas pour autant les moments de détente et de bien-être. Vous serez pris en charge dans votre globalité, autant au niveau de la santé physique que votre bien-être psychologique pour améliorer votre qualité de vie. 
+
+        Nos connaissances approfondies du corps humain permettent d’élaborer des plans de traitement personnalisés, adaptés aux besoins spécifiques de chaque patient.  
+        
+        Nous sommes habilités à nous occuper de patients de tout âge, touchés par des affections orthopédiques et rhumatologiques, des blessures liées au travail et au sport et à la rééducation urologique. 
+        
+        La collaboration, l’échange avec votre médecin est facilité. Nous collaborons avec des thérapeutes d’autres disciplines et nous efforçons de conseiller des professionnels de la santé en qui nous avons confiance. 
+        
+        Reconnus par les caisses maladies de base (LAMAL), nous nous réjouissons de vous rencontrer et vous accueillir dans notre cabinet, au centre de Sion. </p>
+    </section>
+
+    <section id="galerie">
+      <h2></h2>
+      <div class="slider-wrapper"> 
+        <button class="slider-btn left-btn">◀</button>
+        <div class="slider-container">
+          <div class="slider-track">
+            <img src="images/8e292474-c3e0-47bf-a8cb-e126df504637 (2).webp" alt="Photo 2" loading="lazy">
+            <img src="images/8da67272-c2bf-475e-bbc2-916eb5ee4929 (1).webp" alt="Photo 1" loading="lazy">
+            <img src="images/14a297bd-52c0-469b-a6b9-8ecb9dc3d30d (2).webp" alt="Photo 3" loading="lazy">
+            <img src="images/24248fb6-43df-48dd-80d3-a24e8257dd9a (2).webp" alt="Photo 4" loading="lazy">
+            <img src="images/c018ac21-5f4b-4b2d-b8a7-dab20360e2bc (2).webp" alt="Photo 5" loading="lazy">
+            <img src="images/c8385777-a4ed-40db-8e35-3134aef56f55 (2).webp" alt="Photo 6" loading="lazy">
+          </div>
+        </div>
+        <button class="slider-btn right-btn">▶</button>
+      </div>
+    </section>
+
+    <section id="physiothérapie">
+      <h1>La physiothérapie</h1>
+      <p>La physiothérapie est une discipline paramédicale visant à prévenir, évaluer et traiter les troubles du mouvement et les limites fonctionnelles du corps humain. 
+
+        Par son approche holistique, les physiothérapeutes, professionnels de la santé, utilisent les thérapies manuelles, mobilisations articulaires, étirements et renforcement musculaires ainsi que diverses approches et exercices actifs thérapeutiques pour améliorer la mobilité, la force et la souplesse musculaire, la coordination, l’équilibre, la proprioception, soulager les douleurs et favoriser la récupération après blessures, interventions chirurgicales ou lors de maladies chroniques. 
+        
+        Les physiothérapeutes possèdent de larges connaissances en anatomie, physiologie et pathologie, ce qui leur permet de comprendre comment interagissent les différents composants du corps humain. </p>
+    </section>
+
+
+  
+    <section id="services">
+      <h2>Pour quels problèmes ?</h2>
+    
+      <div>
+        <h3>Articulaires</h3>
+        <p>Limitations d’amplitude, douleurs aiguës ou chroniques, entorses, tendinites, troubles posturaux, raideurs.</p>
+      </div>
+    
+      <div>
+        <h3>Urologique / Gynécologique (femmes et hommes)</h3>
+        <ul>
+          <li>Hyperactivité ou mauvaise vidange de la vessie, infections urinaires</li>
+          <li>Douleurs, renforcement, proprioception et relâchement du périnée</li>
+          <li>Rééducation post-partum ou post-opératoire</li>
+          <li>Proctologie : constipation, diarrhée, ballonnements</li>
+        </ul>
+      </div>
+    
+      <div>
+        <h3>Mal de dos</h3>
+        <p>Cervicalgies, dorsalgies, lombalgies, sacralgies, sciatalgies.</p>
+      </div>
+    
+      <div>
+        <h3>Réadaptation fonctionnelle</h3>
+        <ul>
+          <li>Troubles de l’équilibre, de la coordination</li>
+          <li>Manque d’endurance</li>
+          <li>Amélioration de l’indépendance à domicile (personnes âgées)</li>
+        </ul>
+      </div>
+    </section>
+    
+
+    <section id="equipe">
+      <h2>Équipe</h2>
+      <div class="team-list">
+        <div class="team-member">
+          <img src="images/9809dd8f-c680-4a3d-b176-d2502b8597a5.jpeg" alt="Christophe Kuchler" class="team-photo">
+          <h3>Christophe Kuchler</h3>
+          <p>Physiothérapeute, responsable</p>
+          <a href="cv-christophe.html" class="cv-button">Voir le CV</a>
+        </div>
+        <div class="team-member">
+          <img src="images/AUCV9832.JPG" alt="Carine Kuchler" class="team-photo">
+          <h3>Carine Kuchler Bonvin</h3>
+          <p>Physiothérapeute</p>
+          <a href="cv-carine.html" class="cv-button">Voir le CV</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="infos">
+      <h2>Informations supplémentaires</h2>
+      <p>
+        Les séances de physiothérapie sont prises en charge par votre assurance maladie sous couvert d'une ordonnance prescrite par votre médecin.
+      </p>
+    </section>
+
+    <section id="massage">
+      <h2>Massage</h2>
+      <p>
+        
+      </p>
+      <img src="images/ff47f87f-148a-49c1-9082-a70540e61ccb.jpeg" alt="photo massage">
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>
+        <strong>Email :</strong> <a href="mailto:c.kuchler@physio-hin.ch">c.kuchler@physio-hin.ch</a><br>
+        <strong>Téléphone :</strong> <a href="tel:+41273221888">027 322 18 88</a>
+      </p>
+    </section>
+
+    <section id="horaires">
+      <h2>Horaires</h2>
+      <ul class="hours">
+        <li><strong>Lundi – Jeudi :</strong> 8h00-12h00 / 14h00-18h00</li>
+        <li><strong>Vendredi :</strong> 8H00-12h00</li>
+        <li><strong>Samedi - Dimanche:</strong> Fermé</li>
+      </ul>
+    </section>
+
+    <section id="emplacement">
+      <h2>Emplacement</h2>
+      <p>
+        Rue du Chanoine-Berchtold 10<br>
+        1950 Sion, Suisse
+      </p>
+      <iframe
+        src="https://www.google.com/maps?q=Rue+du+Chanoine-Berchtold+10,+1950+Sion,+Suisse&output=embed"
+        width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy">
+      </iframe>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Physiothérapie Kuchler. Tous droits réservés.
+  </footer>
+
+  <script>
+    window.addEventListener("load", () => {
+      const loader = document.getElementById("loader");
+      if (loader) loader.style.display = "none";
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+
+const loader = document.getElementById("loader");
+if (loader) loader.style.display = "none";
+
+const sections = document.querySelectorAll("section");
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
+    } else {
+      entry.target.classList.remove("visible");
+    }
+  });
+}, { threshold: 0.1 });
+sections.forEach(section => observer.observe(section));
+
+const navLinks = document.querySelectorAll("nav a");
+navLinks.forEach(link => {
+  link.addEventListener("click", function(e) {
+    e.preventDefault();
+    const targetId = this.getAttribute("href").substring(1);
+    const targetSection = document.getElementById(targetId);
+    targetSection.scrollIntoView({ behavior: "smooth" });
+  });
+});
+
+const sliderContainer = document.querySelector('.slider-container');
+const images = document.querySelectorAll('.slider-track img');
+const leftBtn = document.querySelector('.left-btn');
+const rightBtn = document.querySelector('.right-btn');
+
+let currentIndex = 0;
+const scrollAmount = images[0].offsetWidth + 10;
+
+function updateSlider() {
+  const targetScroll = currentIndex * scrollAmount;
+  sliderContainer.scrollTo({ left: targetScroll, behavior: 'smooth' });
+}
+
+rightBtn.addEventListener('click', () => {
+  currentIndex = (currentIndex + 1) % images.length;
+  updateSlider();
+});
+
+leftBtn.addEventListener('click', () => {
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  updateSlider();
+});
+
+let startX = 0;
+sliderContainer.addEventListener('touchstart', (e) => {
+  startX = e.touches[0].clientX;
+});
+sliderContainer.addEventListener('touchend', (e) => {
+  const endX = e.changedTouches[0].clientX;
+  if (startX - endX > 50) {
+    currentIndex = (currentIndex + 1) % images.length;
+    updateSlider();
+  } else if (endX - startX > 50) {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateSlider();
+  }
+});
+
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const closeBtn = document.getElementById('close-btn');
+const leftArrow = document.getElementById('left-arrow');
+const rightArrow = document.getElementById('right-arrow');
+
+function showImage(index) {
+  currentIndex = (index + images.length) % images.length;
+  lightboxImg.src = images[currentIndex].src;
+}
+
+images.forEach((img, index) => {
+  img.addEventListener('click', () => {
+    showImage(index);
+    lightbox.style.display = 'flex';
+  });
+});
+
+closeBtn.addEventListener('click', () => {
+  lightbox.style.display = 'none';
+});
+
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) {
+    lightbox.style.display = 'none';
+  }
+});
+
+leftArrow.addEventListener('click', () => {
+  showImage(currentIndex - 1);
+});
+
+rightArrow.addEventListener('click', () => {
+  showImage(currentIndex + 1);
+});
+
+document.addEventListener('keydown', (e) => {
+  if (lightbox.style.display === 'flex') {
+    if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+    if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+    if (e.key === 'Escape') lightbox.style.display = 'none';
+  }
+});
+});
+
+  </script>
+<div id="lightbox" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:center; z-index:10000;">
+  <span id="close-btn" style="position:absolute; top:20px; right:20px; font-size:2em; color:white; cursor:pointer;">✖</span>
+
+  <span id="left-arrow" style="position:absolute; left:20px; top:50%; transform:translateY(-50%); font-size:2.5em; color:rgba(255,255,255,0.4); cursor:pointer; user-select:none;">❮</span>
+
+  <img id="lightbox-img" style="max-width:90%; max-height:90%; border-radius:10px; object-fit:contain;">
+
+  <span id="right-arrow" style="position:absolute; right:20px; top:50%; transform:translateY(-50%); font-size:2.5em; color:rgba(255,255,255,0.4); cursor:pointer; user-select:none;">❯</span>
+</div>
+</body>
+</html>
